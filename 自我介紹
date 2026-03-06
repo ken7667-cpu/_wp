@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>楊哲熏的個人主頁 | About Me</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h2 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            color: #2980b9;
+        }
+        .info-list {
+            list-style: none;
+            padding: 0;
+        }
+        .info-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .info-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #e67e22;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>楊哲熏 (Yang, Zhe-Xun)</h1>
+        <p>國立金門大學 資訊工程學系 一年級</p>
+    </header>
+
+    <div class="container">
+        <h2>📌 關於我 (About Me)</h2>
+        <p>
+            你好！我是<span class="highlight">楊哲熏</span>。目前就讀於國立金門大學資工系。
+            我對計算科學充滿熱情，特別沉浸於<span class="highlight">數學 (Mathematics)</span>與<span class="highlight">邏輯思考 (Logical Thinking)</span>的挑戰。
+            在資訊領域中，我享受解決問題帶來的成就感。
+        </p>
+
+        <h2>🏸 興趣與專長 (Interests & Skills)</h2>
+        <ul class="info-list">
+            <li><strong>運動愛好：</strong> 我非常喜歡運動，這能讓我保持清晰的思考。</li>
+            <li><strong>最擅長運動：</strong> 羽球 (Badminton)。</li>
+            <li><strong>學術興趣：</strong> 離散數學、演算法分析與邏輯推演。</li>
+        </ul>
+
+        <h2>🚀 未來規劃 (Future Plans)</h2>
+        <p>
+            在大學四年的基礎訓練後，我計劃繼續深造<span class="highlight">研究所 (Graduate School)</span>，
+            在特定的資訊領域中進行更深入的研究，提升自己的技術專業度與競爭力。
+        </p>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 楊哲熏. Designed for CSIE Personal Portfolio.</p>
+    </footer>
+
+</body>
+</html>
