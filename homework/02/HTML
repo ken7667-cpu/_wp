@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>簡單表單範例</title>
+    <style>
+        /* CSS：負責「好看」 */
+        body {
+            line-height: 1.6;        /* 設定行高，讓文字不會太擠 */
+            max-width: 500px;        /* 限制表單最大寬度 */
+            margin: 20px auto;       /* 讓表單在頁面水平居中 */
+            padding: 20px;
+            background-color: #f9f9f9; /* 背景換成淺灰色 */
+        }
+        
+        /* 設定每一個輸入區塊的間距 */
+        .item {
+            margin-bottom: 15px; 
+            padding: 10px;
+            border-bottom: 1px solid #eee; /* 加上淺淺的分隔線 */
+        }
+
+        label {
+            display: block;          /* 讓標籤自佔一行 */
+            font-weight: bold;       /* 粗體字 */
+        }
+
+        /* 統一設定輸入框的寬度與內距 */
+        input[type="text"], input[type="email"], select, textarea {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        /* 送出按鈕的美化 */
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;         /* 滑鼠移上去變小手 */
+        }
+    </style>
+</head>
+<body>
+
+    <h2>社團報名表 📝</h2>
+
+    <form>
+
+        <div class="item">
+            <label>1. 姓名 (Name):</label>
+            <input type="text" name="username" placeholder="請輸入姓名">
+        </div>
+
+        <div class="item">
+            <label>2. 信箱 (Email):</label>
+            <input type="email" name="useremail">
+        </div>
+
+        <div class="item">
+            <label>3. 學號 (Student ID):</label>
+            <input type="number" name="sid">
+        </div>
+
+        <div class="item">
+            <label>4. 想要加入的組別 (Team):</label>
+            <select name="team">
+                <option value="web">網頁開發組 (Web)</option>
+                <option value="app">行動應用組 (App)</option>
+                <option value="ai">機器學習組 (AI)</option>
+            </select>
+        </div>
+
+        <div class="item">
+            <label>5. 是否有程式基礎? (Experience):</label>
+            <input type="radio" name="exp" value="yes"> 是
+            <input type="radio" name="exp" value="no"> 否
+        </div>
+
+        <div class="item">
+            <label>6. 擅長的語言 (Skills):</label>
+            <input type="checkbox" name="skill" value="c"> C++
+            <input type="checkbox" name="skill" value="python"> Python
+            <input type="checkbox" name="skill" value="java"> Java
+        </div>
+
+        <div class="item">
+            <label>7. 方便面試日期 (Date):</label>
+            <input type="date" name="interview_date">
+        </div>
+
+        <div class="item">
+            <label>8. 上傳學生證影本 (Upload):</label>
+            <input type="file" name="attachment">
+        </div>
+
+        <div class="item">
+            <label>9. 選一個你的代表色 (Favorite Color):</label>
+            <input type="color" name="fav_color">
+        </div>
+
+        <div class="item">
+            <label>10. 自我介紹 (Self Intro):</label>
+            <textarea name="intro" rows="4"></textarea>
+        </div>
+
+        <button type="submit">送出資料 (Submit)</button>
+
+    </form>
+
+</body>
+</html>
