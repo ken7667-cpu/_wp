@@ -1,0 +1,29 @@
+function findOldestUser(usersJSON) {
+  // 1. JSON 解析 (JSON) -> 陣列 (Array) 內含物件 (Object)
+  const rawUsers = JSON.parse(usersJSON); 
+  let validUsers = [];
+  
+  // 2. 用 for 迴圈與 if 條件判斷過濾無效資料
+  for (let i = 0; i < rawUsers.length; i++) {
+    if (rawUsers[i].age > 0) {
+      validUsers.push(rawUsers[i]);
+    }
+  }
+
+  // 3. 用 while 迴圈尋找最大值
+  if (validUsers.length === 0) return null;
+  
+  let oldest = validUsers[0];
+  let j = 1;
+  while (j < validUsers.length) {
+    if (validUsers[j].age > oldest.age) {
+      oldest = validUsers[j];
+    }
+    j++;
+  }
+  
+  return oldest;
+}
+
+const usersData = '[{"name":"Tom","age":-5},{"name":"ika","age":20},{"name":"Zack","age":45},{"name":"Amy","age":32}]';
+console.log("練習 10:", findOldestUser(usersData)); // 輸出: { name: 'Zack', age: 45 }
