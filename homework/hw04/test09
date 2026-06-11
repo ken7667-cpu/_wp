@@ -1,0 +1,13 @@
+function calculateTotalFromJSON(cartJSON) {
+  const cartData = JSON.parse(cartJSON);
+  let total = 0;
+  let i = 0;
+  
+  while (i < cartData.items.length) {
+    total += (cartData.items[i].price * cartData.items[i].qty);
+    i++;
+  }
+  return total;
+}
+const cartStr = '{"items": [{"name": "A", "price": 100, "qty": 2}, {"name": "B", "price": 50, "qty": 3}]}';
+console.log("練習 9:", calculateTotalFromJSON(cartStr)); // 輸出: 350
