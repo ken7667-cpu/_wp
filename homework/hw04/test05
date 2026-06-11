@@ -1,0 +1,16 @@
+function getPassingStudents(students) {
+  let passed = [];
+  for (let i = 0; i < students.length; i++) {
+    // 存取物件 (Object) 的屬性 (Property)
+    if (students[i].score >= 60) {
+      passed.push(students[i].name);
+    }
+  }
+  return passed;
+}
+const studentList = [
+  { name: "Alice", score: 55 },
+  { name: "Bob", score: 80 },
+  { name: "Charlie", score: 95 }
+];
+console.log("練習 5:", getPassingStudents(studentList)); // 輸出: [ 'Bob', 'Charlie' ]
