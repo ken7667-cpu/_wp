@@ -1,0 +1,14 @@
+function countFruits(fruitsArray) {
+  let counts = {};
+  for (let i = 0; i < fruitsArray.length; i++) {
+    let fruit = fruitsArray[i];
+    if (counts[fruit]) {
+      counts[fruit]++; // 若物件已包含該鍵 (Key)，則數量加 1
+    } else {
+      counts[fruit] = 1; // 否則初始化為 1
+    }
+  }
+  return counts;
+}
+const basket = ["apple", "banana", "apple", "orange", "banana", "apple"];
+console.log("練習 8:", countFruits(basket)); // 輸出: { apple: 3, banana: 2, orange: 1 }
