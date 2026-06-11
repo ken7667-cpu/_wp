@@ -1,0 +1,10 @@
+function reverseArray(arr) {
+  let reversed = [];
+  let i = arr.length - 1;
+  while (i >= 0) {
+    reversed.push(arr[i]);
+    i--;
+  }
+  return reversed;
+}
+console.log("練習 7:", reverseArray([1, 2, 3])); // 輸出: [ 3, 2, 1 ]
