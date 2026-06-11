@@ -1,0 +1,9 @@
+function checkEvenOdd(num) {
+  // 使用 if 條件判斷 (Conditional Statement)
+  if (num % 2 === 0) {
+    return "偶數 (Even)";
+  } else {
+    return "奇數 (Odd)";
+  }
+}
+console.log("練習 1:", checkEvenOdd(10)); // 輸出: 偶數 (Even)
