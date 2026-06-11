@@ -1,0 +1,16 @@
+{
+  "name": "opencode-blog-2",
+  "version": "1.0.0",
+  "description": "OpenCode 網誌系統 - 深色主題版",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "marked": "^9.1.0",
+    "sql.js": "^1.8.0"
+  }
+}
