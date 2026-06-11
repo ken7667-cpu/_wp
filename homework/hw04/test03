@@ -1,0 +1,12 @@
+function findTarget(arr, target) {
+  let i = 0;
+  // 使用 while 迴圈 (Loop)
+  while (i < arr.length) {
+    if (arr[i] === target) {
+      return i;
+    }
+    i++;
+  }
+  return -1;
+}
+console.log("練習 3:", findTarget([10, 20, 30, 40], 30)); // 輸出: 2
