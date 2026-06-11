@@ -1,0 +1,11 @@
+function createJSONReport(productName, price) {
+  const reportObj = {
+    product: productName,
+    price: price,
+    timestamp: new Date().toISOString()
+  };
+  // 將物件轉換為 JSON 字串 (String)
+  return JSON.stringify(reportObj);
+}
+console.log("練習 6:", createJSONReport("Laptop", 35000)); 
+// 輸出類似: {"product":"Laptop","price":35000,"timestamp":"2026-06-11..."}
