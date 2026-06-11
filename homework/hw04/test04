@@ -1,0 +1,7 @@
+function getUserName(jsonString) {
+  // 將 JSON 字串轉為 JavaScript 物件 (Object)
+  const userObj = JSON.parse(jsonString);
+  return userObj.name;
+}
+const userJSON = '{"name": "ika", "age": 20, "major": "CS"}';
+console.log("練習 4:", getUserName(userJSON)); // 輸出: ika
