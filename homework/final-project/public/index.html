@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>日麻極速聽牌挑戰賽</title>
+    <style>
+        body { background-color: #2c3e50; color: white; text-align: center; font-family: sans-serif; margin: 0; padding: 20px; }
+        
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .lobby-board { background: rgba(0,0,0,0.5); padding: 30px; border-radius: 15px; display: inline-block; min-width: 400px; margin-top: 20px;}
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 20px; }
+        th, td { border-bottom: 1px solid #7f8c8d; padding: 10px; }
+        
+        header { font-size: 24px; font-weight: bold; background: #c0392b; padding: 10px; border-radius: 10px; margin-bottom: 20px; }
+        .game-board { background-color: #1a5e2f; border: 10px solid #a0522d; border-radius: 15px; padding: 30px; margin: 0 auto; max-width: 900px; }
+        .tenpai-hand { display: flex; justify-content: center; height: 90px; margin-bottom: 30px; gap: 4px; }
+        .selection-palette { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; }
+        
+        .tile { font-size: 45px; background: #ecf0f1; color: black; padding: 5px 8px; border-radius: 6px; cursor: pointer; box-shadow: 2px 4px 6px rgba(0,0,0,0.5); user-select: none; }
+        .tile.question-tile { cursor: default; }
+        .tile.selection-tile:hover { transform: translateY(-5px); }
+        .tile.selected { background-color: #f1c40f; box-shadow: 0 0 15px #f1c40f; transform: translateY(-5px); }
+        
+        /* 🌟 按鈕樣式升級 🌟 */
+        .btn { font-size: 24px; padding: 15px 40px; cursor: pointer; background-color: #e67e22; color: white; border: none; border-radius: 10px; box-shadow: 2px 4px 6px rgba(0,0,0,0.4); }
+        .btn:hover { background-color: #d35400; }
+        .btn-danger { background-color: #c0392b; margin-left: 15px; }
+        .btn-danger:hover { background-color: #a93226; }
+        
+        /* 玩家名稱輸入框樣式 */
+        .name-input { font-size: 24px; padding: 10px; text-align: center; border-radius: 8px; border: 2px solid #f1c40f; margin-bottom: 15px; background: #34495e; color: white; }
+    </style>
+</head>
+<body>
+
+    <div id="screen-lobby" class="screen active">
+        <h1>🀄 日麻極速聽牌挑戰賽 🀄</h1>
+        <p style="font-size: 20px;">規則：3 分鐘內，找出正確的聽牌！</p>
+        
+        <input type="text" id="player-name" class="name-input" placeholder="請先輸入您的暱稱"><br>
+        <button class="btn" onclick="startGame()">開始挑戰</button>
+        
+        <div class="lobby-board">
+            <h2>🏆 英雄排行榜</h2>
+            <table>
+                <thead><tr><th>名次</th><th>玩家姓名</th><th>答對題數</th></tr></thead>
+                <tbody id="leaderboard-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="screen-game" class="screen">
+        <header>
+            剩餘時間: <span id="timer" style="color:#f1c40f;">180</span> 秒 | 目前得分: <span id="score" style="color:#2ecc71;">0</span> 分
+        </header>
+        <div class="game-board">
+            <h2 id="desc-box" style="color:#f1c40f;">載入中...</h2>
+            <div id="tenpai-hand-box" class="tenpai-hand"></div>
+            <p>請點擊所有能和牌的麻將（多面聽請全選），再按確認：</p>
+            <div id="palette-box" class="selection-palette"></div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button class="btn" onclick="checkAnswer()">確認答案</button>
+            <button class="btn btn-danger" onclick="endGame()">提早結算</button>
+        </div>
+    </div>
+
+    <div id="screen-gameover" class="screen">
+        <h1>⏳ 遊戲結束 ⏳</h1>
+        <h2 style="font-size: 40px;">你總共答對了 <span id="final-score" style="color: #f1c40f;">0</span> 題</h2>
+        <p id="upload-status">成績上傳中...</p>
+        <button class="btn" onclick="backToLobby()" style="display:none; margin-top: 20px;" id="btn-back">回到大廳</button>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
