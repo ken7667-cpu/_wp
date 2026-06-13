@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>楊哲熏 的 JavaScript 作業匯總</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0f0f1a;
+      color: #e0e0e0;
+      line-height: 1.7;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #0f0f1a 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(118, 75, 162, 0.08) 0%, transparent 50%);
+      animation: heroGlow 8s ease-in-out infinite alternate;
+    }
+    @keyframes heroGlow {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-5%, -5%); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea, #a855f7, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: #8888aa;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 50px;
+      background: rgba(102, 126, 234, 0.15);
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      color: #a78bfa;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #555;
+      font-size: 0.85rem;
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(15, 15, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s;
+    }
+    nav.hidden { transform: translateY(-100%); }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, #667eea, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-links a {
+      color: #8888aa;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .nav-links a:hover {
+      color: #fff;
+      background: rgba(102, 126, 234, 0.15);
+    }
+
+    /* Container */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    /* Section */
+    .section {
+      padding: 80px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .section:last-child { border-bottom: none; }
+    .section-header {
+      margin-bottom: 48px;
+    }
+    .section-number {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #667eea;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .section h2 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .section-desc {
+      color: #8888aa;
+      font-size: 1.05rem;
+      max-width: 700px;
+    }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s;
+      cursor: default;
+    }
+    .card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(102, 126, 234, 0.3);
+      transform: translateY(-4px);
+    }
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: #8888aa;
+      margin-bottom: 12px;
+    }
+    .card .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(102, 126, 234, 0.12);
+      color: #a78bfa;
+      margin-right: 4px;
+      margin-bottom: 4px;
+    }
+    .card .tag.green { background: rgba(52, 211, 153, 0.12); color: #34d399; }
+    .card .tag.pink { background: rgba(236, 72, 153, 0.12); color: #f472b6; }
+    .card .tag.yellow { background: rgba(251, 191, 36, 0.12); color: #fbbf24; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      color: #8888aa;
+      margin-top: 4px;
+    }
+
+    /* Table */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th {
+      background: rgba(102, 126, 234, 0.1);
+      color: #a78bfa;
+      font-weight: 600;
+      text-align: left;
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #ccc;
+    }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    tr:last-child td { border-bottom: none; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #555;
+      font-size: 0.85rem;
+    }
+    footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    footer a:hover { color: #a78bfa; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .section { padding: 48px 0; }
+      .card-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">楊哲熏.dev</a>
+    <div class="nav-links">
+      <a href="#hw02">02</a>
+      <a href="#hw03">03</a>
+      <a href="#hw04">04</a>
+      <a href="#hw05">05</a>
+      <a href="#hw06">06</a>
+      <a href="#hw07">07</a>
+      <a href="#final">Final</a>
+      <a href="#summary">總覽</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">JavaScript &middot; Node.js &middot; Express</div>
+    <h1>JavaScript<br>作業匯總</h1>
+    <p>從 HTML 表單到全端部落格系統，再到日麻聽牌遊戲 — 這學期的完整學習歷程</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="#hw02" style="display:inline-block;padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:600;text-decoration:none;transition:transform 0.2s;">瀏覽作品</a>
+      <a href="https://github.com/ken7667-cpu/_wp" target="_blank" style="display:inline-block;padding:12px 28px;border-radius:10px;border:2px solid rgba(255,255,255,0.15);color:#ccc;font-weight:600;text-decoration:none;transition:all 0.2s;">GitHub</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">向下滾動</div>
+</section>
+
+<div class="container">
+
+<!-- 02 -->
+<section class="section" id="hw02">
+  <div class="section-header">
+    <div class="section-number">作業 02</div>
+    <h2>HTML 表單</h2>
+    <p class="section-desc">一個社團報名表單頁面，涵蓋多種 HTML 表單元素與 CSS 樣式設計。</p>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📝</div>
+      <h3>表單元素</h3>
+      <p>文字輸入、信箱、下拉選單、單選鈕、核取方塊、日期、檔案上傳、顏色選取、文字區域</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎨</div>
+      <h3>CSS 樣式</h3>
+      <p>RWD 響應式佈局、置中排版、漸層背景、hover 動畫效果</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📄</div>
+      <h3>檔案</h3>
+      <p><code>homework/02/HTML</code> — 純 HTML + CSS，無 JavaScript</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 -->
+<section class="section" id="hw03">
+  <div class="section-header">
+    <div class="section-number">作業 03</div>
+    <h2>Hello JavaScript</h2>
+    <p class="section-desc">Node.js 的入門敲門磚。</p>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">👋</div>
+      <h3>程式碼</h3>
+      <p><code>console.log('hello 你好')</code> — 最簡潔的 Node.js 起手式</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>核心概念</h3>
+      <p>Node.js 執行環境、console 輸出、基本語法</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📁</div>
+      <h3>檔案</h3>
+      <p><code>homework/03/hello.js</code> — 1 行程式碼</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section class="section" id="hw04">
+  <div class="section-header">
+    <div class="section-number">作業 04</div>
+    <h2>10 個 JavaScript 程式練習</h2>
+    <p class="section-desc">從基礎語法到綜合應用的完整練習，涵蓋 JS 核心資料結構與控制流程。</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>主題</th><th>核心概念</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>判斷奇偶數</td><td>function、if/else</td></tr>
+        <tr><td>02</td><td>陣列元素加總</td><td>for 迴圈、陣列</td></tr>
+        <tr><td>03</td><td>使用 While 尋找目標</td><td>while 迴圈</td></tr>
+        <tr><td>04</td><td>解析 JSON 資料</td><td>JSON.parse</td></tr>
+        <tr><td>05</td><td>篩選及格學生</td><td>陣列 + 物件 + 條件判斷</td></tr>
+        <tr><td>06</td><td>產生 JSON 報表</td><td>JSON.stringify</td></tr>
+        <tr><td>07</td><td>反轉陣列</td><td>while 手動反轉</td></tr>
+        <tr><td>08</td><td>統計水果數量</td><td>物件鍵值對</td></tr>
+        <tr><td>09</td><td>計算購物車總價</td><td>JSON + while 迴圈</td></tr>
+        <tr><td>10</td><td>找出最年長使用者</td><td>綜合運用所有語法</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="stats-grid" style="margin-top:24px;">
+    <div class="stat-card"><div class="stat-number">10</div><div class="stat-label">練習題</div></div>
+    <div class="stat-card"><div class="stat-number">7</div><div class="stat-label">核心概念</div></div>
+    <div class="stat-card"><div class="stat-number">~130</div><div class="stat-label">總行數</div></div>
+  </div>
+</section>
+
+<!-- 05 -->
+<section class="section" id="hw05">
+  <div class="section-header">
+    <div class="section-number">作業 05</div>
+    <h2>Express 部落格系統</h2>
+    <p class="section-desc">從基礎 CRUD 到完整社群平台，四個版本的逐步演進。</p>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">📌</div>
+      <h3>Blog 1 — 基礎 CRUD</h3>
+      <p>用户註冊/登入、Markdown 文章發布、公開/私人權限、SQLite 儲存</p>
+      <span class="tag">Express</span><span class="tag">SQLite</span><span class="tag">bcrypt</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌓</div>
+      <h3>Blog 2 — 主題切換</h3>
+      <p>深色/淺色主題、CSS 變數系統化、RWD 強化、動畫效果</p>
+      <span class="tag green">CSS 變數</span><span class="tag green">localStorage</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">💬</div>
+      <h3>Blog 3 — 社群功能</h3>
+      <p>留言系統（巢狀回覆）、按讚功能、個人檔案頁面、追蹤系統、XSS 防護</p>
+      <span class="tag pink">留言</span><span class="tag pink">按讚</span><span class="tag pink">追蹤</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔍</div>
+      <h3>Blog 4 — 進階功能</h3>
+      <p>文章搜尋、文章編輯、帳號設定（修改密碼、個人簡介）</p>
+      <span class="tag yellow">搜尋</span><span class="tag yellow">編輯</span><span class="tag yellow">設定</span>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">版本迭代</div></div>
+    <div class="stat-card"><div class="stat-number">3000+</div><div class="stat-label">總程式行數</div></div>
+    <div class="stat-card"><div class="stat-number">10+</div><div class="stat-label">npm 套件</div></div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="section" id="hw06">
+  <div class="section-header">
+    <div class="section-number">作業 06</div>
+    <h2>JavaScript 函數與參數</h2>
+    <p class="section-desc">深入理解 callback、閉包、高階函數與傳值傳參考。</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>主題</th><th>核心概念</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>Callback 基礎</td><td>回呼函數作為參數</td></tr>
+        <tr><td>02</td><td>IIFE</td><td>立即執行函數與作用域</td></tr>
+        <tr><td>03</td><td>箭頭函數與 map</td><td>陣列轉換</td></tr>
+        <tr><td>04</td><td>破壞性修改</td><td>陣列傳參考特性</td></tr>
+        <tr><td>05</td><td>高階函數</td><td>閉包（回傳函數）</td></tr>
+        <tr><td>06</td><td>Callback 篩選器</td><td>自製 filter</td></tr>
+        <tr><td>07</td><td>filter 物件陣列</td><td>箭頭函數 + filter</td></tr>
+        <tr><td>08</td><td>傳址陷阱</td><td>傳值 vs 傳參考</td></tr>
+        <tr><td>09</td><td>延遲 Callback</td><td>setTimeout</td></tr>
+        <tr><td>10</td><td>計算總價</td><td>reduce + callback</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="section" id="hw07">
+  <div class="section-header">
+    <div class="section-number">作業 07</div>
+    <h2>全方位 JavaScript 實作挑戰</h2>
+    <p class="section-desc">為 Express 部落格設計的前導練習，涵蓋資料流、非同步與樣板產生。</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>主題</th><th>對應概念</th></tr></thead>
+      <tbody>
+        <tr><td>ex01</td><td>物件屬性存取</td><td>dot vs bracket notation</td></tr>
+        <tr><td>ex02</td><td>解構賦值</td><td>const { title } = req.body</td></tr>
+        <tr><td>ex03</td><td>陣列遍歷</td><td>forEach 產生列表</td></tr>
+        <tr><td>ex04</td><td>動態參數</td><td>req.params.id</td></tr>
+        <tr><td>ex05</td><td>Error-First Callback</td><td>非同步模式</td></tr>
+        <tr><td>ex06</td><td>JSON 處理</td><td>express.json()</td></tr>
+        <tr><td>ex07</td><td>資料庫查詢模擬</td><td>db.get 結構</td></tr>
+        <tr><td>ex08</td><td>樣板字串</td><td>HTML 模板產生</td></tr>
+        <tr><td>ex09</td><td>字串切片</td><td>substr 對應</td></tr>
+        <tr><td>ex10</td><td>錯誤優先回呼</td><td>if (err) return</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Final Project -->
+<section class="section" id="final">
+  <div class="section-header">
+    <div class="section-number">期末專題</div>
+    <h2>日麻極速聽牌挑戰賽</h2>
+    <p class="section-desc">一個基於日本麻將的聽牌練習網頁遊戲 — 全端自製，包含題庫、計時、排行榜。</p>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🀄</div>
+      <h3>34 張麻將鍵盤</h3>
+      <p>使用 Unicode 麻將圖示（🀇🀈🀉...）設計直觀的選牌介面</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📚</div>
+      <h3>30 題豐富題庫</h3>
+      <p>兩面聽、坎張、邊張、單騎、雙碰、三面聽、九蓮寶燈等</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⏱️</div>
+      <h3>限時挑戰</h3>
+      <p>3 分鐘倒數，時間壓力下訓練聽牌判斷力</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🏆</div>
+      <h3>排行榜系統</h3>
+      <p>成績自動上傳，同玩家只取最高分，資料持久化</p>
+    </div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-number">Express</div><div class="stat-label">後端框架</div></div>
+    <div class="stat-card"><div class="stat-number">30</div><div class="stat-label">聽牌題目</div></div>
+    <div class="stat-card"><div class="stat-number">180</div><div class="stat-label">秒限時</div></div>
+    <div class="stat-card"><div class="stat-number">~3800+</div><div class="stat-label">總行數</div></div>
+  </div>
+</section>
+
+<!-- Summary -->
+<section class="section" id="summary">
+  <div class="section-header">
+    <div class="section-number">總覽</div>
+    <h2>學習歷程</h2>
+    <p class="section-desc">從基礎到全端的完整學習路徑，各作業的核心技術與規模。</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>作業</th><th>主題</th><th>技術棧</th><th>行數</th></tr></thead>
+      <tbody>
+        <tr><td>02</td><td>HTML 表單</td><td>HTML / CSS</td><td>~113</td></tr>
+        <tr><td>03</td><td>Hello JavaScript</td><td>Node.js</td><td>1</td></tr>
+        <tr><td>04</td><td>10 個 JS 練習</td><td>JavaScript 基礎</td><td>~130</td></tr>
+        <tr><td>05</td><td>部落格系統 x4</td><td>Express / SQLite</td><td>~3000+</td></tr>
+        <tr><td>06</td><td>函數與參數</td><td>JS 進階</td><td>~200</td></tr>
+        <tr><td>07</td><td>全方位挑戰</td><td>JS 實作</td><td>~360</td></tr>
+        <tr><td>Final</td><td>日麻聽牌遊戲</td><td>Express 全端</td><td>~3800+</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="stats-grid" style="margin-top:32px;">
+    <div class="stat-card"><div class="stat-number">7</div><div class="stat-label">作業項目</div></div>
+    <div class="stat-card"><div class="stat-number">7400+</div><div class="stat-label">總程式行數</div></div>
+    <div class="stat-card"><div class="stat-number">HTML/CSS/JS</div><div class="stat-label">技術範疇</div></div>
+  </div>
+</section>
+
+</div>
+
+<footer>
+  <p>楊哲熏 &middot; JavaScript 作業匯總 &middot; <a href="https://github.com/ken7667-cpu/_wp" target="_blank">GitHub</a></p>
+</footer>
+
+<script>
+  let lastScroll = 0;
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    const cur = window.scrollY;
+    navbar.classList.toggle('hidden', cur > lastScroll && cur > 100);
+    lastScroll = cur;
+  });
+</script>
+
+</body>
+</html>
